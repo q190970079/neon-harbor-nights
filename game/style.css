@@ -1,0 +1,82 @@
+/* Neon Harbor Nights — sunset UI over Verde Bay. */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #17102b;
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #f4ead8; }
+#game, #game canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+#vignette { position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: radial-gradient(ellipse at center, transparent 52%, rgba(190, 20, 30, 0.55) 100%);
+  transition: opacity 0.18s; z-index: 5; }
+
+/* ---------- HUD ---------- */
+#hud { position: absolute; inset: 0; pointer-events: none; z-index: 10; }
+#mapWrap { position: absolute; top: 16px; left: 16px; width: 180px; }
+#minimap { width: 180px; height: 180px; border-radius: 50%;
+  border: 3px solid rgba(255, 201, 77, 0.75); box-shadow: 0 4px 24px rgba(0,0,0,0.55);
+  background: #1d1830; }
+#mapLabel { text-align: center; font-size: 11px; letter-spacing: 3px; color: #ffd98a;
+  margin-top: 4px; text-shadow: 0 1px 3px #000; }
+#topRight { position: absolute; top: 16px; right: 20px; text-align: right; }
+#stars { font-size: 30px; color: #ffd23e; letter-spacing: 4px; text-shadow: 0 2px 6px #000; line-height: 1; }
+#cash { font-size: 26px; font-weight: 700; color: #7be495; text-shadow: 0 2px 6px #000; margin-top: 4px; }
+#timer { font-size: 22px; font-weight: 700; color: #ffd98a; text-shadow: 0 2px 6px #000; margin-top: 4px; }
+#bottomLeft { position: absolute; left: 20px; bottom: 20px; }
+#healthBar { width: 220px; height: 14px; background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,255,255,0.35); border-radius: 7px; overflow: hidden; }
+#healthFill { height: 100%; width: 100%; background: linear-gradient(90deg, #37d67a, #7be495);
+  transition: width 0.2s; }
+#ammo { margin-top: 8px; font-size: 15px; letter-spacing: 2px; color: #ffd98a; text-shadow: 0 1px 4px #000; }
+#bottomRight { position: absolute; right: 20px; bottom: 16px; text-align: right; }
+#speedo { font-size: 40px; font-weight: 800; color: #fff; text-shadow: 0 2px 8px #000; }
+#speedo small { font-size: 15px; font-weight: 400; color: #ffd98a; }
+#carName { font-size: 14px; letter-spacing: 2px; color: #ffd98a; text-shadow: 0 1px 4px #000; }
+#objective { position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+  max-width: 560px; text-align: center; font-size: 16.5px; font-weight: 600; color: #ffe9b8;
+  background: rgba(16, 10, 32, 0.62); padding: 8px 18px; border-radius: 20px;
+  border: 1px solid rgba(255, 201, 77, 0.4); text-shadow: 0 1px 3px #000; }
+#subtitle { position: absolute; bottom: 108px; left: 50%; transform: translateX(-50%);
+  max-width: 640px; text-align: center; font-size: 16px; color: #fff; opacity: 0;
+  background: rgba(10, 6, 24, 0.72); padding: 9px 20px; border-radius: 8px;
+  transition: opacity 0.4s; text-shadow: 0 1px 3px #000; }
+#subtitle b { color: #ffc94d; }
+#prompt { position: absolute; bottom: 170px; left: 50%; transform: translateX(-50%);
+  font-size: 17px; font-weight: 700; color: #fff; opacity: 0; transition: opacity 0.15s;
+  background: rgba(10, 6, 24, 0.7); padding: 7px 16px; border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.4); }
+#banner { position: absolute; top: 84px; left: 50%; transform: translate(-50%, -12px);
+  font-size: 25px; font-weight: 800; letter-spacing: 2px; color: #ffc94d; opacity: 0;
+  transition: opacity 0.3s, transform 0.3s; text-shadow: 0 3px 10px #000; white-space: nowrap; }
+#bustWrap { position: absolute; bottom: 220px; left: 50%; transform: translateX(-50%);
+  text-align: center; color: #ff8a80; font-weight: 800; letter-spacing: 3px; }
+#bustBar { width: 220px; height: 10px; background: rgba(0,0,0,0.6); border-radius: 5px;
+  overflow: hidden; margin-top: 5px; border: 1px solid rgba(255,255,255,0.35); }
+#bustFill { height: 100%; width: 0%; background: #3a86ff; }
+#crosshair { position: absolute; top: 50%; left: 50%; width: 6px; height: 6px;
+  transform: translate(-50%, -50%); border-radius: 50%;
+  background: rgba(255,255,255,0.85); box-shadow: 0 0 5px #000; }
+
+/* ---------- Menus ---------- */
+#menu, #pause, #overlay { position: absolute; inset: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(180deg, rgba(24,12,48,0.55) 0%, rgba(80,32,64,0.45) 55%, rgba(20,10,36,0.78) 100%); }
+#pause, #overlay { background: rgba(12, 6, 26, 0.72); }
+.menuInner { text-align: center; max-width: 620px; padding: 34px 44px;
+  background: rgba(18, 10, 38, 0.82); border: 1px solid rgba(255, 201, 77, 0.45);
+  border-radius: 16px; box-shadow: 0 18px 60px rgba(0,0,0,0.6); }
+.menuInner h1 { font-size: 54px; line-height: 0.95; letter-spacing: 3px; color: #ffd98a;
+  text-shadow: 0 4px 0 #b3541e, 0 8px 26px rgba(0,0,0,0.7); }
+.menuInner h1 span { color: #ff7e5f; }
+.menuInner h2 { font-size: 38px; letter-spacing: 4px; color: #ffd98a; margin-bottom: 14px; }
+.tagline { margin: 16px 0 6px; font-size: 15.5px; line-height: 1.5; color: #e8dcc4; }
+.controls { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 18px;
+  margin: 16px auto 20px; font-size: 13.5px; color: #bcb0d0; text-align: left; max-width: 470px; }
+.controls b { color: #ffd98a; }
+button { pointer-events: auto; cursor: pointer; display: block; margin: 10px auto;
+  min-width: 230px; padding: 12px 26px; font-size: 17px; font-weight: 800; letter-spacing: 3px;
+  color: #241233; background: linear-gradient(180deg, #ffd98a, #ff9d5c);
+  border: none; border-radius: 9px; box-shadow: 0 5px 0 #a34d1d, 0 10px 22px rgba(0,0,0,0.45); }
+button:hover { filter: brightness(1.08); }
+button:active { transform: translateY(3px); box-shadow: 0 2px 0 #a34d1d; }
+.fineprint { margin-top: 14px; font-size: 12px; color: #8d81a8; }
+#overlayTitle { color: #ff5a4d; }
+#overlayText { margin-bottom: 10px; color: #e8dcc4; }

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neon Harbor Nights — Verde Bay</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%232c1e4f'/%3E%3Ccircle cx='8' cy='10' r='4' fill='%23ffb36b'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="game"></div>
+<div id="vignette"></div>
+
+<!-- In-game HUD -->
+<div id="hud" style="display:none">
+  <div id="mapWrap">
+    <canvas id="minimap" width="180" height="180"></canvas>
+    <div id="mapLabel">VERDE BAY</div>
+  </div>
+  <div id="topRight">
+    <div id="stars">☆☆☆☆☆</div>
+    <div id="cash">$0</div>
+    <div id="timer" style="display:none"></div>
+  </div>
+  <div id="bottomLeft">
+    <div id="healthBar"><div id="healthFill"></div></div>
+    <div id="ammo" style="display:none"></div>
+  </div>
+  <div id="bottomRight">
+    <div id="carName" style="display:none"></div>
+    <div id="speedo" style="display:none"></div>
+  </div>
+  <div id="objective"></div>
+  <div id="subtitle"></div>
+  <div id="prompt"></div>
+  <div id="banner"></div>
+  <div id="bustWrap" style="display:none"><span>BUSTED</span><div id="bustBar"><div id="bustFill"></div></div></div>
+  <div id="crosshair"></div>
+</div>
+
+<!-- Start screen -->
+<div id="menu">
+  <div class="menuInner">
+    <h1>NEON HARBOR<br><span>NIGHTS</span></h1>
+    <p class="tagline">Verde Bay, at dusk. Milo is a wheelman with an empty wallet,
+      a borrowed past, and one fixer willing to pay for fast hands.
+      Steal, run, deliver — and try not to wake the whole bay.</p>
+    <div class="controls">
+      <div><b>W A S D</b> move / drive</div>
+      <div><b>Shift</b> sprint &nbsp;·&nbsp; <b>Space</b> handbrake</div>
+      <div><b>E</b> enter / exit car, talk</div>
+      <div><b>Mouse / Q E</b> camera &nbsp;·&nbsp; <b>Click / F</b> fire</div>
+      <div><b>R</b> reload &nbsp;·&nbsp; <b>P / Esc</b> pause</div>
+    </div>
+    <button id="btnNew">NEW GAME</button>
+    <button id="btnContinue" style="display:none">CONTINUE</button>
+    <p class="fineprint">An original open-world crime game in your browser. No downloads, no network — just the bay.</p>
+  </div>
+</div>
+
+<!-- Pause -->
+<div id="pause" style="display:none">
+  <div class="menuInner">
+    <h2>PAUSED</h2>
+    <button id="btnResume">RESUME</button>
+    <button id="btnSave">SAVE &amp; TITLE</button>
+  </div>
+</div>
+
+<!-- Death / bust overlay -->
+<div id="overlay" style="display:none">
+  <div class="menuInner">
+    <h2 id="overlayTitle">FLATLINED</h2>
+    <p id="overlayText"></p>
+    <button id="btnRespawn">WAKE UP</button>
+  </div>
+</div>
+
+<script src="vendor/three.min.js"></script>
+<script src="src/config.js"></script>
+<script src="src/audio.js"></script>
+<script src="src/city.js"></script>
+<script src="src/vehicles.js"></script>
+<script src="src/people.js"></script>
+<script src="src/police.js"></script>
+<script src="src/missions.js"></script>
+<script src="src/hud.js"></script>
+<script src="src/game.js"></script>
+</body>
+</html>
